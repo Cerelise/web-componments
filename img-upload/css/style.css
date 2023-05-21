@@ -1,0 +1,22 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	background-color: #1f2130;
+	overflow-y: scroll;
+}
+
+/* 布局样式 */
+.flex {
+	display: flex;
+	/* justify-content: center; */
+	flex-direction: column;
+	align-items: center;
+}
+
+.flex-jcl {
+	display: flex;
+	justify-content: left;
+}

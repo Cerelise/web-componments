@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link
+			href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="./css/style.css" />
+		<style>
+			.container {
+				display: flex;
+				align-items: center;
+				align-content: center;
+			}
+
+			.upload-area {
+				width: 100vw;
+				height: 100vh;
+				display: flex;
+				justify-content: space-evenly;
+			}
+
+			.pic-box {
+				display: grid;
+				grid-column: 1fr;
+				justify-content: center;
+				align-content: center;
+				justify-items: center;
+			}
+
+			.pic-os {
+				border-radius: 20px;
+				background-color: #1d293e;
+				box-shadow: 5px 0 10px #00000070, 0 5px 10px #00000070;
+			}
+
+			.pic {
+				width: 400px;
+				height: 400px;
+				margin: 40px;
+				align-content: center;
+				justify-content: center;
+				background-color: #233045;
+				overflow: hidden;
+				border: 10px ridge #15223a;
+				/* padding: 0 10px; */
+			}
+
+			#plus {
+				font-size: 200px;
+				color: #41a48d;
+				align-content: center;
+				justify-content: center;
+				width: 100%;
+				height: 100%;
+			}
+
+			.btn {
+				margin-top: 50px;
+				height: 50px;
+				border-radius: 10px;
+				background-color: #1d283a;
+				padding: 5px 25px;
+				color: #4d9d96;
+				text-align: center;
+				line-height: 50px;
+				font-size: 25px;
+				font-weight: 700;
+				box-shadow: 5px 0 10px #00000070, 0 5px 10px #00000070;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="content">
+			<div class="container">
+				<div class="upload-area">
+					<div class="pic-box">
+						<div class="pic-os">
+							<div class="flex pic" id="upload">
+								<img
+									src=""
+									id="img"
+									style="min-height: 100%; min-width: 100%"
+								/>
+								<input type="file" hidden id="file" />
+								<i class="flex fas fa-plus" id="plus"></i>
+							</div>
+						</div>
+						<pre class="btn" id="fix">upload</pre>
+					</div>
+
+					<div class="pic-box">
+						<div class="pic-os">
+							<div class="flex pic">
+								<img
+									id="img-preview"
+									style="min-height: 100%; min-width: 100%"
+								/>
+							</div>
+						</div>
+						<pre id="downloadBtn" class="btn">download</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			;(function () {
+				const img = document.querySelector('#img')
+				const img_preview = document.querySelector('#img-preview')
+				const fix = document.querySelector('#fix')
+				let picture = null
+
+				img.style.display = 'none'
+				img_preview.style.display = 'none'
+
+				const plus = document.querySelector('#plus')
+				const file = document.querySelector('#file')
+				const upload = document.querySelector('#upload')
+
+				upload.addEventListener('click', () => {
+					file.click()
+				})
+
+				file.onchange = (e) => {
+					// 在此处上传图片至后端
+					img.style.display = 'block'
+					picture = e.target.files[0]
+					img_url = URL.createObjectURL(e.target.files[0])
+					img.src = img_url
+					plus.style.display = 'none'
+					// console.log(img_url)
+				}
+
+				fix.addEventListener('click', () => {
+					uploadImg()
+				})
+
+				function uploadImg() {
+					// 获取上传的图片
+					const reader = new FileReader()
+					reader.readAsDataURL(picture)
+					reader.onload = function () {
+						img_preview.src = reader.result
+						console.log(img_preview.src)
+					}
+					img_preview.src = img_preview.style.display = 'block'
+				}
+
+				const download = document.querySelector('#downloadBtn')
+
+				download.addEventListener('click', () => {
+					downloadPic(img_preview, 'Avatar.png')
+				})
+
+				function downloadPic(link, picName) {
+					let pic = document.createElement('a')
+					let event = new MouseEvent('click')
+					pic.download = picName || 'default.png'
+					pic.href = link.src
+					pic.dispatchEvent(event)
+				}
+			})()
+		</script>
+	</body>
+</html>
